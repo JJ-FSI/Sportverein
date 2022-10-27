@@ -13,8 +13,17 @@
         fwrite($BenutzerDatenDatei, $FormularCSV_Zeile);
         fclose($BenutzerDatenDatei);
 
+        #maskiere HTML im POST Array
+        foreach ($_POST as $key => $value) 
+        {
+            $_POST[$key] =  str_replace('<', '&#60;', $_POST[$key]);
+            $_POST[$key] =  str_replace('>', '&#62;', $_POST[$key]);
+        }
+        
+
         $FormatiertesMomentanesDatumString = date_format(date_create(), "d.m.y");
-        if ($_POST["anrede"] == "ohneAnrede") {
+        if ($_POST["anrede"] == "ohneAnrede")
+        {
             $_POST["anrede"] = $_POST["vorname"];
         }
         $ÜbertrageneDatenBestätigungsHTMLstring = 
