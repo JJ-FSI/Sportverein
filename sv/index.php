@@ -8,7 +8,7 @@
             <li class=text2>Basketball</li>
             <li class=text2>Hockey</li>
             <li class=text2>Klettern</li>
-            <li class=text2><a href=/sv/kursanmeldungen.php class=link1>Kurse für Nichtmitglieder</a></li>
+            <li class=text2><a href=/sv/kursanmeldungen_2.php class=link1>Kurse für Nichtmitglieder</a></li>
             <li class=text2><a href=/sv/sportfest.php class=link1>Unser Sportfest 
                 <?php
                     echo $momentanesJahr;

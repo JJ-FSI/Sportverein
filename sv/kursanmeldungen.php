@@ -9,6 +9,8 @@
     while(!feof($myfile))
     {
         $KurslisteArray[$i] = fgets($myfile);
+        $KurslisteArray[$i] = str_replace("\n", "", $KurslisteArray[$i]);
+        $KurslisteArray[$i] = str_replace("\r", "", $KurslisteArray[$i]);
         $i++;
     }      
     fclose($myfile);
@@ -46,17 +48,17 @@
             <input type="date" id="geburtsdatum"  name="geburtsdatum" required value="2000-01-02">
             <fieldset>
                 <legend>Bevorzugte Tage</legend>
-                <input type="checkbox" id="montag" name="wochentag" value="montag" checked>
+                <input type="checkbox" id="montag" name="wochentag[]" value="montag" checked>
                 <label for="montag">Montag</label>
-                <input type="checkbox" id="dienstag" name="wochentag" value="dienstag" checked>
+                <input type="checkbox" id="dienstag" name="wochentag[]" value="dienstag" checked>
                 <label for="dienstag">Dienstag</label>
-                <input type="checkbox" id="mittwoch" name="wochentag" value="mittwoch">
+                <input type="checkbox" id="mittwoch" name="wochentag[]" value="mittwoch">
                 <label for="mittwoch">Mittwoch</label>
-                <input type="checkbox" id="donnerstag" name="wochentag" value="donnerstag">
+                <input type="checkbox" id="donnerstag" name="wochentag[]" value="donnerstag">
                 <label for="donnerstag">Donnerstag</label>
-                <input type="checkbox" id="freitag" name="wochentag" value="freitag">
+                <input type="checkbox" id="freitag" name="wochentag[]" value="freitag">
                 <label for="freitag">Freitag</label>
-                <input type="checkbox" id="samstag" name="wochentag" value="samstag">
+                <input type="checkbox" id="samstag" name="wochentag[]" value="samstag">
                 <label for="samstag">Samstag</label>
             </fieldset>
             <label for="Kurs">Kursart *</label>

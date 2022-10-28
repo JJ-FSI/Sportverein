@@ -1,5 +1,5 @@
-<?php
 
+<?php
     # Wenn _POST nicht leer ist schreibe in Datei
     if (! empty($_POST )) 
     {
@@ -7,7 +7,18 @@
         $BenutzerDatenDatei = fopen("benutzerdaten.txt", "a") or die("Unable to open file!");
         foreach ($_POST as $key => $value) 
         {
-            $FormularCSV_Zeile .= $value . ";";
+            $ÜberprüfterAusgabeString = "";
+            #konvertiere array in json
+            if (is_array($value))
+            {
+               $ÜberprüfterAusgabeString = json_encode($_POST[$key]);
+               $_POST[$key] = json_encode($_POST[$key]);
+
+            }
+            else {
+                $ÜberprüfterAusgabeString = $value;
+            }
+            $FormularCSV_Zeile .= $ÜberprüfterAusgabeString . ";";
         }
         $FormularCSV_Zeile .= "\n";
         fwrite($BenutzerDatenDatei, $FormularCSV_Zeile);
@@ -16,8 +27,7 @@
         #maskiere HTML im POST Array
         foreach ($_POST as $key => $value) 
         {
-            $_POST[$key] =  str_replace('<', '&#60;', $_POST[$key]);
-            $_POST[$key] =  str_replace('>', '&#62;', $_POST[$key]);
+            $_POST[$key] = htmlspecialchars($_POST[$key]);
         }
         
 
@@ -32,11 +42,10 @@
         <b>" . $_POST["kurs"] . "</b><br>
         angemeldet.</p>";
     }
-    # Sonst Weiterleitung zur Eingabeseite
-    else
-    {
-        header('Location: kursanmeldungen.php');
+    else {
+        header("kursanmeldungen.php");
     }
+
 ?>
 <?php
     include 'sv_header.php';

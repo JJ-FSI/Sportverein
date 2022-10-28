@@ -190,3 +190,7 @@ ul{
 textarea {
     resize: none;
   }
+.versteckt
+{
+    display: hidden;
+}
