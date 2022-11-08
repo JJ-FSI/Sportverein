@@ -1,3 +1,4 @@
+
 <?php
     include 'sv_header.php';
 ?>
@@ -19,9 +20,20 @@
     foreach ($KurslisteArray as $key => $einKurs) {
         $KurslisteHTMLString .= "<option value=\"" . $einKurs . "\">" . $einKurs . "</option>";
     }
+
+    $HTMLErrorString = "";
+    // foreach ($meineEingaben as $einSchluessel => $einWert) {
+    //     if ($einWert["validiert"] == false) {
+    //         $HTMLErrorString .= "<p><b class=fehler>" . $einWert["Fehlermeldung"] . "</b></p>";
+    //     }
+    // } 
+
 /*     var_dump($KurslisteArray); */
 ?>
     <div class=contentLeft>
+        <?php
+            echo $HTMLErrorString;
+        ?>
         <h1>Kursanmeldung für Nichtmitglieder</h1>
         <br>
         <p>Bitte Füllen Sie die nachfolgenden Eingabefelder aus:</p>   
