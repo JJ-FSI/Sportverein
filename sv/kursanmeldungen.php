@@ -60,7 +60,8 @@
             <input type="date" id="geburtsdatum"  name="geburtsdatum" required value="2000-01-02">
             <fieldset>
                 <legend>Bevorzugte Tage</legend>
-                <input type="checkbox" id="montag" name="wochentag[]" value="montag" checked>
+                <input type="checkbox" id="montag" name="wochentag[]" value="montag" 
+                >
                 <label for="montag">Montag</label>
                 <input type="checkbox" id="dienstag" name="wochentag[]" value="dienstag" checked>
                 <label for="dienstag">Dienstag</label>

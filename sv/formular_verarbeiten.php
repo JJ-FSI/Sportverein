@@ -5,18 +5,16 @@
     {
         $FormularCSV_Zeile = "";
         $BenutzerDatenDatei = fopen("benutzerdaten.txt", "a") or die("Unable to open file!");
-        foreach ($_POST as $key => $value) 
+        foreach ($meineEingaben as $key => $value) 
         {
             $ÜberprüfterAusgabeString = "";
             #konvertiere array in json
-            if (is_array($value))
+            if (is_array($value["wert"]))
             {
-               $ÜberprüfterAusgabeString = json_encode($_POST[$key]);
-               $_POST[$key] = json_encode($_POST[$key]);
-
+               $ÜberprüfterAusgabeString = json_encode($meineEingaben[$key]["wert"]);
             }
             else {
-                $ÜberprüfterAusgabeString = $value;
+                $ÜberprüfterAusgabeString = $value["wert"];
             }
             $FormularCSV_Zeile .= $ÜberprüfterAusgabeString . ";";
         }
@@ -27,7 +25,9 @@
         #maskiere HTML im POST Array
         foreach ($_POST as $key => $value) 
         {
-            $_POST[$key] = htmlspecialchars($_POST[$key]);
+            if (!is_array($value)) {
+                $_POST[$key] = htmlspecialchars($_POST[$key]);
+            }
         }
         
 
@@ -49,7 +49,7 @@
 ?>
 <?php
     include 'sv_header.php';
-    var_dump($_POST)
+    // var_dump($_POST)
 ?>
 <div class=contentCenter>
     <h1>Kursanmeldung für Nichtmitglieder</h1>

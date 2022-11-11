@@ -1,34 +1,41 @@
 <?php
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
     ###GLOBALE DATEN###
+    $verfügbareWochentage = ["montag", "dienstag", "mittwoch", "donnerstag", "freitag", "samstag"];
+
     $meineEingaben = array(
         "anrede" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "Herr",
             "fehlermeldung" => "Bitte Anrede auswählen"
         ),
         "vorname" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "Max",
             "fehlermeldung" => "Bitte Vornamen eingeben"
         ),
         "nachname" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "Mustermann",
             "fehlermeldung" => "Bitte Vornamen eingeben"
         ),
         "telefon" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "1234",
             "fehlermeldung" => "Bitte Telefonnummer eingeben"
         ),
         "email" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "max@mustermail.com",
             "fehlermeldung" => "Bitte eine gültige E-Mail eingeben"
         ),
         "geburtsdatum" => array(
             "validiert" => false,
-            "wert" => "",
+            "wert" => "2000-01-02",
             "fehlermeldung" => "Bitte ihr Geburtsdatum eingeben"
         ),
         "wochentage" => array(
@@ -70,7 +77,11 @@
         #füge die Inhalte des Arrays in Option Elementen zusammen
         $KurslisteHTMLString = "";
         foreach ($KurslisteArray as $key => $einKurs) {
-            $KurslisteHTMLString .= "<option value=\"" . $einKurs . "\">" . $einKurs . "</option>";
+            $KurslisteHTMLString .= "<option value=\"" . $einKurs . "\"";
+            if (in_array($meineEingaben["kurs"]["wert"], $KurslisteArray)) {
+                $KurslisteHTMLString .= " selected ";
+            }
+            $KurslisteHTMLString .= ">" . $einKurs . "</option>";
         }
 
         $HTMLErrorString = "";
@@ -98,11 +109,26 @@
                 <form class="myForm" action="kursanmeldungen_2.php" method="POST">
                     <fieldset>
                         <legend>Anrede</legend>
-                        <input type="radio" id="frau" name="anrede" value="Frau">
+                        <input type="radio" id="frau" name="anrede" value="Frau"
+                        <?php
+                            if ($meineEingaben["anrede"]["wert"] == "Frau" ) {
+                                echo " checked ";
+                            }
+                        ?>>
                         <label for="frau">Frau</label>
-                        <input type="radio" id="herr" name="anrede" value="Herr" checked>
+                        <input type="radio" id="herr" name="anrede" value="Herr" 
+                        <?php
+                            if ($meineEingaben["anrede"]["wert"] == "Herr" ) {
+                                echo " checked ";
+                            }
+                        ?>>
                         <label for="ohneAnrede">Herr</label>
-                        <input type="radio" id="ohneAnrede" name="anrede" value="ohneAnrede">
+                        <input type="radio" id="ohneAnrede" name="anrede" value="ohneAnrede"
+                        <?php
+                            if ($meineEingaben["anrede"]["wert"] == "ohneAnrede" ) {
+                                echo " checked ";
+                            }
+                        ?>>
                         <label for="ohneAnrede">ohne Anrede</label>
                     </fieldset>
                     <label for="vorname">Vorname *</label>
@@ -137,17 +163,48 @@
                     >
                     <fieldset>
                         <legend>Bevorzugte Tage</legend>
-                        <input type="checkbox" id="montag" name="wochentag[]" value="montag" checked>
+                        <input type="checkbox" id="montag" name="wochentag[]" value="montag"
+                        <?php
+                            if (in_array("montag", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>
+                        >
                         <label for="montag">Montag</label>
-                        <input type="checkbox" id="dienstag" name="wochentag[]" value="dienstag" checked>
+                        <input type="checkbox" id="dienstag" name="wochentag[]" value="dienstag"
+                        <?php
+                            if (in_array("dienstag", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>>
                         <label for="dienstag">Dienstag</label>
-                        <input type="checkbox" id="mittwoch" name="wochentag[]" value="mittwoch">
+                        <input type="checkbox" id="mittwoch" name="wochentag[]" value="mittwoch"
+                        <?php
+                            if (in_array("mittwoch", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>>
                         <label for="mittwoch">Mittwoch</label>
-                        <input type="checkbox" id="donnerstag" name="wochentag[]" value="donnerstag">
+                        <input type="checkbox" id="donnerstag" name="wochentag[]" value="donnerstag"
+                        <?php
+                            if (in_array("donnerstag", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>>
                         <label for="donnerstag">Donnerstag</label>
-                        <input type="checkbox" id="freitag" name="wochentag[]" value="freitag">
+                        <input type="checkbox" id="freitag" name="wochentag[]" value="freitag"
+                        <?php
+                            if (in_array("freitag", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>>
                         <label for="freitag">Freitag</label>
-                        <input type="checkbox" id="samstag" name="wochentag[]" value="samstag">
+                        <input type="checkbox" id="samstag" name="wochentag[]" value="samstag"
+                        <?php
+                            if (in_array("samstag", $meineEingaben["wochentage"]["wert"])) {
+                                echo "checked";
+                            }
+                        ?>>
                         <label for="samstag">Samstag</label>
                     </fieldset>
                     <label for="Kurs">Kursart *</label>
@@ -196,6 +253,100 @@
             $meineEingaben["anrede"]["wert"] = $_POST["anrede"];
             $meineEingaben["anrede"]["validiert"] = true;
         }
+        else {
+            $meineEingaben["anrede"]["validiert"] = false;
+        }
+        if (is_string($_POST["vorname"]))
+        {
+            $meineEingaben["vorname"]["wert"] = trim(htmlspecialchars($_POST["vorname"]));
+            $meineEingaben["vorname"]["validiert"] = true;
+        }
+        if (is_string($_POST["nachname"]))
+        {
+            $meineEingaben["nachname"]["wert"] = trim(htmlspecialchars($_POST["nachname"]));
+            $meineEingaben["nachname"]["validiert"] = true;
+        }
+        if (is_string($_POST["telefon"]))
+        {
+            $meineEingaben["telefon"]["wert"] = trim(htmlspecialchars($_POST["telefon"]));
+            if (preg_match("/^(\+[0-9]{2,3}|0+[0-9]{2,5}).+[\d\s\/\(\)-]/", $meineEingaben["telefon"]["wert"]) ){
+                $meineEingaben["telefon"]["validiert"] = true;
+            }
+            else {
+                $meineEingaben["telefon"]["validiert"] = false;
+            }
+        }
+        if (is_string($_POST["email"]))
+        {
+            $meineEingaben["email"]["wert"] = trim(htmlspecialchars($_POST["email"]));
+            if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+                $meineEingaben["email"]["validiert"] = true;
+            }
+            else {
+                $meineEingaben["email"]["validiert"] = false;
+            }
+        }
+        if (is_string($_POST["geburtsdatum"]))
+        {
+            $meineEingaben["geburtsdatum"]["wert"] = trim(htmlspecialchars($_POST["geburtsdatum"]));
+            if (strtotime($meineEingaben["geburtsdatum"]["wert"])){
+                $meineEingaben["geburtsdatum"]["validiert"] = true;
+            }
+            else {
+                $meineEingaben["geburtsdatum"]["validiert"] = false;
+            }
+        }
+
+        if (!isset($_POST["wochentag"])) {
+            $meineEingaben["wochentage"]["validiert"] = true;
+        }
+
+        if (is_array($_POST["wochentag"]))
+        {
+            global $verfügbareWochentage;
+            
+            $meineEingaben["wochentage"]["wert"] = $_POST["wochentag"];
+            
+            if (0 == count(array_diff($meineEingaben["wochentage"]["wert"], $verfügbareWochentage)) ||
+                0 == count($meineEingaben["wochentage"]["wert"])
+            ){
+                $meineEingaben["wochentage"]["validiert"] = true;
+            }
+            else {
+                $meineEingaben["wochentage"]["validiert"] = false;
+            }
+        }
+
+        
+
+        if (is_string($_POST["kurs"]))
+        {
+            $i = 0;
+            $KurslisteArray = array();
+            $myfile = fopen("kursliste.txt", "r") or die("Unable to open file!");
+            #lese die gesamte Datei aus (EOF) und schreibe sie in ein Array
+            while(!feof($myfile))
+            {
+                $KurslisteArray[$i] = fgets($myfile);
+                $KurslisteArray[$i] = str_replace("\n", "", $KurslisteArray[$i]);
+                $KurslisteArray[$i] = str_replace("\r", "", $KurslisteArray[$i]);
+                $i++;
+            }      
+            fclose($myfile);
+
+            $meineEingaben["kurs"]["wert"] = trim(htmlspecialchars($_POST["kurs"]));
+            if (in_array($_POST["kurs"], $KurslisteArray)){
+                $meineEingaben["kurs"]["validiert"] = true;
+            }
+            else {
+                $meineEingaben["kurs"]["validiert"] = false;
+            }
+        }
+
+
+
+
+
 
         $bRückgabewert = true;
         foreach ($meineEingaben as $key => $value) {
@@ -205,7 +356,7 @@
             }
 
         }
-        return true;
+        // return true;
         return $bRückgabewert;
     }
 
