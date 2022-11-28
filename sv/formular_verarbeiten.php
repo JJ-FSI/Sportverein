@@ -1,8 +1,72 @@
 
 <?php
+
+    function SQL_Insert_Prepared(array $meineEingaben)
+    {
+        
+        $servername = "localhost";
+        $username = "root";
+        $password = null;
+        $dbname = "sportverein";
+        $table = "kursanmeldung";
+    
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) 
+        {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        
+        $statementListString = "";
+        $preparedStatementString = "INSERT INTO ". $table ." (";
+        $valuesString = ") VALUES (";
+        $parameterArray = [];
+
+        foreach ($meineEingaben as $key => $value) {
+            $preparedStatementString .= $key . ",";
+            $statementListString .= "s";
+            $valuesString .= "?,";
+            if (is_array($value["wert"])) {
+                array_push($parameterArray, json_encode( $value["wert"]));
+            }
+            else {
+                array_push($parameterArray, $value["wert"]);
+            }
+        }
+
+        #remove last char
+        $preparedStatementString = substr($preparedStatementString, 0, -1);
+        $valuesString = substr($valuesString, 0, -1);
+
+        $valuesString .= ")";
+
+        $preparedStatementString .= $valuesString;
+
+        var_dump($preparedStatementString);
+        var_dump($parameterArray);
+
+
+
+        if ($stmt = $conn->prepare("INSERT INTO kursanmeldung (anrede, vorname, nachname, telefon, email, geburtsdatum, wochentage, kurs, nachricht) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+            $stmt->bind_param($statementListString, ...$parameterArray);
+            $stmt->execute();
+            $affectedrows =$stmt->affected_rows;
+            $stmt->close();
+        }
+        else {
+            $affectedrows = "Fehler";
+        }
+        var_dump($affectedrows);
+        return $affectedrows;
+    }
+
     # Wenn _POST nicht leer ist schreibe in Datei
     if (! empty($_POST )) 
     {
+
+        ### CSV ###
+
         $FormularCSV_Zeile = "";
         $BenutzerDatenDatei = fopen("benutzerdaten.txt", "a") or die("Unable to open file!");
         foreach ($meineEingaben as $key => $value) 
@@ -21,6 +85,10 @@
         $FormularCSV_Zeile .= "\n";
         fwrite($BenutzerDatenDatei, $FormularCSV_Zeile);
         fclose($BenutzerDatenDatei);
+
+        ### SQL ###
+
+        SQL_Insert_Prepared($meineEingaben);
 
         #maskiere HTML im POST Array
         foreach ($_POST as $key => $value) 

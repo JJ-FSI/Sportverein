@@ -25,7 +25,7 @@
         ),
         "telefon" => array(
             "validiert" => false,
-            "wert" => "1234",
+            "wert" => "09171 818400",
             "fehlermeldung" => "Bitte Telefonnummer eingeben"
         ),
         "email" => array(
@@ -301,7 +301,7 @@
             $meineEingaben["wochentage"]["validiert"] = true;
         }
 
-        if (is_array($_POST["wochentag"]))
+        else if (is_array($_POST["wochentag"]))
         {
             global $verfügbareWochentage;
             
