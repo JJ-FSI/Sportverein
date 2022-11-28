@@ -43,8 +43,8 @@
 
         $preparedStatementString .= $valuesString;
 
-        var_dump($preparedStatementString);
-        var_dump($parameterArray);
+        // var_dump($preparedStatementString);
+        // var_dump($parameterArray);
 
 
 

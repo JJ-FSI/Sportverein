@@ -41,8 +41,8 @@ function SQL_Insert_Prepared(array $meineEingaben)
 
     $preparedStatementString .= $valuesString;
 
-    var_dump($preparedStatementString);
-    var_dump($parameterArray);
+    // var_dump($preparedStatementString);
+    // var_dump($parameterArray);
 
 
 
@@ -55,7 +55,7 @@ function SQL_Insert_Prepared(array $meineEingaben)
     else {
         $affectedrows = "Fehler";
     }
-    var_dump($affectedrows);
+    // var_dump($affectedrows);
     return $affectedrows;
 }
 
