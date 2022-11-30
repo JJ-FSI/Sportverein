@@ -48,7 +48,7 @@
 
 
 
-        if ($stmt = $conn->prepare("INSERT INTO kursanmeldung (anrede, vorname, nachname, telefon, email, geburtsdatum, wochentage, kurs, nachricht) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+        if ($stmt = $conn->prepare($preparedStatementString)) {
             $stmt->bind_param($statementListString, ...$parameterArray);
             $stmt->execute();
             $affectedrows =$stmt->affected_rows;
