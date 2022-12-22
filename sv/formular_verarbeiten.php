@@ -88,6 +88,11 @@
 
         ### SQL ###
 
+        session_start();
+        var_dump($_SESSION);
+        if (isset ( $_SESSION["userid"])) {
+            $meineEingaben["userid"]["wert"] = $_SESSION["userid"];
+        }
         SQL_Insert_Prepared($meineEingaben);
 
         #maskiere HTML im POST Array
@@ -97,6 +102,16 @@
                 $_POST[$key] = htmlspecialchars($_POST[$key]);
             }
         }
+
+        // mail(
+        //     $meineEingaben["email"]["wert"],
+        //     "Vielen Dank für ihre Anmeldung",
+        //     "Vielen Dank ". $meineEingaben["anrede"]["wert"] . " " . $meineEingaben["nachname"]["wert"] . "Sie wurden erfolgreich registriert",
+        //     'From: postmaster@localhost.com' . "\r\n" .
+        //     'Reply-To: postmaster@localhost.com' . "\r\n" .
+        //     'X-Mailer: PHP/' . phpversion()
+        // );
+
         
 
         $FormatiertesMomentanesDatumString = date_format(date_create(), "d.m.y");

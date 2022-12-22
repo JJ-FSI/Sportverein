@@ -1,4 +1,11 @@
 <?php
+    session_start();
+    if (! isset($_SESSION["isLoggedIn"])) {
+        $_SESSION["isLoggedIn"] = false;
+        $_SESSION["userid"] = 0;
+    }
+
+
     $momentanesDatum = date_create();
     $gründungsDatum = date_create("2021-1-1");
     $zeitDifferenz = date_diff($momentanesDatum, $gründungsDatum);
@@ -45,6 +52,12 @@
             $ZeitDifferenzAusgabeString .= "$formatierteZeitDifferenzTage Tagen ";
         }
     }
+
+    $loginbtnHTML = "<li class=floatright><a class=active href=login.php>Login</a></li>";
+    #loginbutton
+    if (isset($_SESSION["isLoggedIn"]) && $_SESSION["isLoggedIn"] === true) {
+        $loginbtnHTML = "<li class=floatright><a class=logout href=logout.php>Logout</a></li><li class=floatright><a href=kursdaten.php>Ihre Kursdaten</a></li>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +74,9 @@
         <li><a href=/sv>Home</a></li>
         <li><a href=#>News</a></li>
         <li><a href=#>Contact</a></li>
-        <li class=floatright><a class=active href=#>Login</a></li>
+        <?php
+            echo $loginbtnHTML
+        ?>
 
     </ul>
 </nav>

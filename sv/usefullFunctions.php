@@ -1,12 +1,29 @@
 <?php
-function SQL_Insert_Prepared(array $meineEingaben)
+
+function loginWasSuccessfull($email)
+{
+    $dbData = SQLQuery2DAssocArray("sportverein", "SELECT userid FROM user WHERE email=\"" . $email . "\";");
+    var_dump($email);
+    var_dump($dbData);
+    $userid = $dbData[0]["userid"];
+
+    session_start();
+    $_SESSION["isLoggedIn"] = true;
+    $_SESSION["userid"] = $userid;
+
+    header("Location: kursdaten.php");
+}
+
+function SQL_Insert_Prepared(
+    array $meineEingaben, 
+    string $table,
+    string $dbname = "sportverein",
+    string $servername = "localhost",
+    string $username = "root",
+    string $password = null)
 {
     
-    $servername = "localhost";
-    $username = "root";
-    $password = null;
-    $dbname = "sportverein";
-    $table = "kursanmeldung";
+
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -61,10 +78,12 @@ function SQL_Insert_Prepared(array $meineEingaben)
 
 function HTMLtableFrom2DAssocArray($my2DArray)
 {
-    $TabellenInhaltString = "<table>";
+    
+    $TabellenInhaltString = "<script src=https://www.kryogenix.org/code/browser/sorttable/sorttable.js></script>
+    <table class=sortable>";
     foreach($my2DArray[0] as $schlüssel => $wert)
     {
-        $TabellenInhaltString .= "<th>$schlüssel</th>";
+        $TabellenInhaltString .= "<th>" . strtoupper($schlüssel)."</th>";
     }
     foreach ($my2DArray as $eineVeranstaltung)
     {
@@ -79,10 +98,11 @@ function HTMLtableFrom2DAssocArray($my2DArray)
     return $TabellenInhaltString;
 }
 
-function SQLQuery2DAssocArray($dbname, string $sql, $servername = "localhost", $username= "root", $password = null)
+function SQLQuery2DAssocArray(string $dbname, string $sql, $servername = "localhost", $username= "root", $password = null)
 {
     $conn = new mysqli($servername, $username, $password, $dbname);
     // Check connection
+    // var_dump($conn);
     if ($conn->connect_error) 
     {
         die("Connection failed: " . $conn->connect_error);
@@ -91,6 +111,10 @@ function SQLQuery2DAssocArray($dbname, string $sql, $servername = "localhost", $
     $result = $conn->query($sql);
     $resultArray = [];
     $resultRowIndex = 0;
+
+    if ($result === false) {
+        return $resultArray;
+    }
 
     if ($result->num_rows > 0) 
     {

@@ -230,19 +230,21 @@
         ?>
         <?php
     }
-    function formverarbeiten($meineEingaben)
+    function formverarbeiten()
     {
+        global $meineEingaben;
+
         foreach ($_POST as $key => $value) {
             $meineEingaben[$key]["wert"] = $value;
         }
-        if (prüfe_eingaben($meineEingaben)) {
+        if (prüfe_eingaben()) {
             include "formular_verarbeiten.php";
         }
         else {
             formausgeben($meineEingaben);
         }
     }
-    function prüfe_eingaben($meineEingaben)
+    function prüfe_eingaben()
     {
         global $meineEingaben;
 
